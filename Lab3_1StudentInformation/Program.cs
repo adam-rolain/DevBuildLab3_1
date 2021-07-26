@@ -6,27 +6,53 @@ namespace Lab3_1StudentInformation
     {
         static void Main(string[] args)
         {
-            string[] names = { "Joseph Murphy", "Brianna Stephenson", "Ronnie Ramirez" };
-            string[] foods = { "Cheeseburgers", "Baby Back Ribs", "Pizza" };
-            string[] titles = { "Business Analyst", "Delay Analyst", "Desktop Support" };
-            int userInput = 0;
-            bool validInput = false;
+            do
+            {
+                // Creating student data and declaring variables
+                string[] names = { "Joseph Murphy", "Brianna Stephenson", "Ronnie Ramirez" };
+                string[] foods = { "Cheeseburgers", "Baby Back Ribs", "Pizza" };
+                string[] titles = { "Business Analyst", "Delay Analyst", "Desktop Support" };
+                int userInt = 0;
+                bool validInput = false;
+                string userString = "";
 
-            Console.WriteLine("Welcome to our Dev.Build class. Here are the students in the class:");
-            for (int i = 0; i < names.Length; i++)
-            {
-                Console.WriteLine($"{i + 1} {names[i]}");
-            }
-            Console.Write($"Which student would you like to learn more about? (enter a number 1-{names.Length}): ");    
-            while (!validInput)
-            {
-                validInput = IsValidInteger(Console.ReadLine(), 1, 3, out userInput);
-            }
-            Console.WriteLine($"Student {userInput} is {names[userInput - 1]}. What would you like to know about {names[userInput - 1]}? (enter “favorite food” or “previous title”): ");
+                // Display student names for user
+                Console.WriteLine("Welcome to our Dev.Build class. Here are the students in the class:");
+                for (int i = 0; i < names.Length; i++)
+                {
+                    Console.WriteLine($"{i + 1} {names[i]}");
+                }
+
+                // Have user select a student to get more information about
+                Console.Write($"Which student would you like to learn more about? (enter a number 1-{names.Length}): ");
+                while (!validInput)
+                {
+                    validInput = IsValidInteger(Console.ReadLine(), 1, names.Length, out userInt);
+                }
+
+                // Find out which piece of information they would like to know about he student
+                validInput = false;
+                while (!validInput)
+                {
+                    Console.Write($"\nStudent {userInt} is {names[userInt - 1]}. What would you like to know about {names[userInt - 1]}? (enter “favorite food” or “previous title”): ");
+                    userString = Console.ReadLine();
+                    validInput = IsValidCategory(userString);
+                }
+
+                // Display chose information
+                if (userString.ToUpper() == "FAVORITE FOOD")
+                {
+                    Console.WriteLine($"\n{names[userInt - 1]}'s favorite food is {foods[userInt - 1]}\n");
+                }
+                else
+                {
+                    Console.WriteLine($"\n{names[userInt - 1]}'s previous title was {titles[userInt - 1]}\n");
+                }
+
+            } while (KeepGoing()); 
         }
 
         // Takes in a string, a minimum integer, a maximum integer, and out int parameter. The method will return true if the string is a positive integer that fits within the minimum and maximum parameters and copy that value to the out parameter. If the string does not hit the previously stated criteria, the method will return false and the out parameter will be assigned a value of 0.
-        // Note: I am open on suggestions to this method. As I was putting it together it was feeling a bit clunky...
         static bool IsValidInteger(string userInput, int min, int max, out int parsedInput)
         {
             while (true)
@@ -39,7 +65,7 @@ namespace Lab3_1StudentInformation
                 {
                     if (parsedInput > max)
                     {
-                        Console.Write($"Sorry, the max number that this program can go to is {max}! Try again: ");
+                        Console.Write($"Sorry, there are only {max} students in the class! Please input a number between {min} and {max}: ");
                         return false;
                     }
                     else
@@ -50,7 +76,7 @@ namespace Lab3_1StudentInformation
                 // If TryParse returns false, then tell the user to input a whole number.
                 else if (!inputIsNumber)
                 {
-                    Console.Write("Whoops, your input needs to be a whole number! Try again: ");
+                    Console.Write($"Whoops, your input needs to be a whole number between {min} and {max}! Try again: ");
                     return false;
                 }
                 // If the parsed integer is less than 1, then direct the user to pick a number greater than 0.
@@ -64,6 +90,45 @@ namespace Lab3_1StudentInformation
                 else
                 {
                     return false;
+                }
+            }
+        }
+
+        static bool IsValidCategory(string userInput)
+        {
+            while (true)
+            {
+                if (userInput.ToUpper() == "FAVORITE FOOD" || userInput.ToUpper() == "PREVIOUS TITLE")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        static bool KeepGoing()
+        {
+            while (true)
+            {
+                Console.Write("Would you like to know about another student? (enter “yes” or “no): ");
+                string response = Console.ReadLine().ToUpper();
+
+                if (response == "Y" || response == "YES")
+                {
+                    Console.WriteLine();
+                    return true;
+                }
+                else if (response == "N" || response == "NO")
+                {
+                    Console.WriteLine("\nThanks!");
+                    return false;
+                }
+                else
+                {
+                    Console.WriteLine("Please enter 'yes' or 'no'");
                 }
             }
         }
