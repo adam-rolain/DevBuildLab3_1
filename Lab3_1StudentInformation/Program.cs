@@ -36,18 +36,11 @@ namespace Lab3_1StudentInformation
                 {
                     Console.Write($"\nStudent {userInt} is {names[userInt - 1]}. What would you like to know about {names[userInt - 1]}? (enter “favorite food” or “previous title”): ");
                     userString = Console.ReadLine();
-                    validInput = IsValidCategory(userString);
+                    validInput = IsValidString(userString, "favorite food", "previous title");
                 }
 
                 // Display chose information
-                if (userString.ToUpper() == "FAVORITE FOOD")
-                {
-                    Console.WriteLine($"\n{names[userInt - 1]}'s favorite food is {foods[userInt - 1]}\n");
-                }
-                else
-                {
-                    Console.WriteLine($"\n{names[userInt - 1]}'s previous title was {titles[userInt - 1]}\n");
-                }
+                DisplayInformation(userString, names[userInt - 1], foods[userInt - 1]);
 
             } while (KeepGoing()); 
         }
@@ -94,18 +87,53 @@ namespace Lab3_1StudentInformation
             }
         }
 
-        static bool IsValidCategory(string userInput)
+        //static bool IsValidString(string userInput, string validInput1, string validInput2)
+        //{
+        //    while (true)
+        //    {
+        //        if (userInput.ToUpper() == validInput1.ToUpper() || userInput.ToUpper() == validInput2.ToUpper())
+        //        {
+        //            return true;
+        //        }
+        //        else
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //}
+
+        static bool IsValidString(string userInput, string validInput1, string validInput2)
         {
-            while (true)
+            bool validString = false;
+            while (!validString)
             {
-                if (userInput.ToUpper() == "FAVORITE FOOD" || userInput.ToUpper() == "PREVIOUS TITLE")
+                validString = false;
+                for (int i = 0; i < userInput.Length; i++)
                 {
-                    return true;
+                    char letter = char.ToUpper(userInput[i]);
+                    if (letter != char.ToUpper(validInput1[i]) && letter != char.ToUpper(validInput2[i]))
+                    {
+                        validString = false;
+                        break;
+                    }
+                    else
+                    {
+                        validString = true;
+                    }
                 }
-                else
-                {
-                    return false;
-                }
+            }
+            return validString;
+        }
+
+        static void DisplayInformation(string userInput, string student, string food)
+        {
+            if (userInput.ToUpper() == "FAVORITE FOOD")
+            {
+                Console.WriteLine($"\n{student}'s favorite food is {food}\n");
+            }
+            else
+            {
+                Console.WriteLine($"\n{student}'s previous title was {food}\n");
             }
         }
 
