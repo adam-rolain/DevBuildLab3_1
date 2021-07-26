@@ -87,21 +87,6 @@ namespace Lab3_1StudentInformation
             }
         }
 
-        //static bool IsValidString(string userInput, string validInput1, string validInput2)
-        //{
-        //    while (true)
-        //    {
-        //        if (userInput.ToUpper() == validInput1.ToUpper() || userInput.ToUpper() == validInput2.ToUpper())
-        //        {
-        //            return true;
-        //        }
-        //        else
-        //        {
-        //            return false;
-        //        }
-        //    }
-        //}
-
         static bool IsValidString(string userInput, string validInput1, string validInput2)
         {
             bool validString = false;
